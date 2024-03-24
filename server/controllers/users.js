@@ -37,6 +37,7 @@ export const getUserFriends = async (req, res) => {
 
   } catch (err) {
     //404 status: unable to find requested resource
+    console.log(err)
     res.status(404).json({ message: err.message });
   }
 };

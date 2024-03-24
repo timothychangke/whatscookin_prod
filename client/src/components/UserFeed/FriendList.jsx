@@ -1,0 +1,73 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFriends } from 'state';
+
+import Friend from './Friend';
+import Container from 'components/UI/Container';
+
+import { Box, Typography as Text, useTheme } from '@mui/material';
+
+//component that displays the friend list
+const FriendList = ({ userId }) => {
+  //set color theme for friendlist
+  const { palette } = useTheme();
+
+  //get token from redux store
+  const token = useSelector((state) => state.token);
+  //get friends from redux store
+  const friends = useSelector((state) => state.user.friends);
+
+  //allow dispatch actions to be called
+  const dispatch = useDispatch();
+
+  //function to get a list of the users friends based on the user id
+  const getFriends = async () => {
+    //api call to backend
+    const response = await fetch(
+      `http://localhost:3001/users/${userId}/friends`,
+      {
+        //get method to get friends
+        method: 'GET',
+        //authorisation header
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+    //wait for data from the backend to come back
+    const data = await response.json();
+    //set friends in redux store
+    dispatch(setFriends({ friends: data }));
+  };
+
+  //get friends everytime the page reloads
+  useEffect(() => {
+    getFriends();
+  }, []);
+
+  return (
+    <Container>
+      <Text
+        color={palette.neutral.dark}
+        variant="h5"
+        fontWeight="500"
+        sx={{ mb: '1.5rem' }}
+      >
+        Friend List
+      </Text>
+      <Box display="flex" flexDirection="column" gap="1.5rem">
+        {friends.map((friend) => {
+          return (
+            <Friend
+              key={friend._id}
+              friendId={friend.id}
+              firstName={friend.firstName}
+              lastName={friend.lastName}
+              userPicturePath={friend.picturePath}
+            />
+          );
+        })}
+      </Box>
+    </Container>
+  );
+};
+
+export default FriendList;
