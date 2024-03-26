@@ -14,6 +14,8 @@
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.4",
     "formik": "^2.4.5",
+    "@material-ui/core": "^4.12.4",
+    "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
