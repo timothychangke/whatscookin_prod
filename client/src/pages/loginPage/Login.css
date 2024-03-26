@@ -1,4 +1,67 @@
-#picture1 {
+/* Right side */
+.l-right {
+    background-color: #0b7707;
+    border-radius: 100px 0 0 100px;
+  }
+  
+  /* Left side */
+  .l-left {
+    background: white;
+  }
+  .titleLogin {
+    color: var(--blackwhite);
+    font-size: 65px;
+    font-weight: 800;
+    z-index: 1;
+  }
+  .emailpasswords {
+    color: var(--blackwhite);
+    z-index: 1;
+  }
+  .submit {
+    color: var(--blackwhite);
+    border: 1px solid white;
+  }
+  .submit:hover {
+    border: 1px solid black;
+    background: white;
+    color: var(--black);
+  }
+  .toRegister {
+    color: var(--blackwhite);
+  }
+  .linkToRegister {
+    text-decoration: none;
+    color: var(--black);
+  }
+  
+  @media (max-width: 1200px) {
+    .l-left {
+      background: var(--bg);
+    }
+    .submit {
+      background: var(--white);
+      color: var(--black);
+    }
+    .linkToRegister {
+      text-decoration: none;
+      color: rgb(214, 214, 214);
+    }
+    .titleLogin {
+      color: var(--white);
+      font-size: 45px;
+      font-weight: 800;
+    }
+    .emailpasswords {
+      color: var(--white);
+    }
+  
+    .toRegister {
+      color: var(--white);
+    }
+  }
+
+  #picture1 {
     display: flex;
   }
   .inputPhoto {
@@ -6,18 +69,18 @@
   }
   /* Right side */
   .r-right {
-    background: var(--primary);
+    background: white;
     z-index: 1;
     border-radius: 100px 0 0 100px;
   }
   
   /* Left side */
   .r-left {
-    background: var(--black);
+    background: #0b7707;
   }
   .titleRegister {
     color: var(--blackwhite);
-    font-size: 45px;
+    font-size: 55px;
     font-weight: 800;
     z-index: 1;
   }
@@ -26,8 +89,8 @@
     z-index: 1;
   }
   .submit {
-    background: var(--bg);
-    color: var(--white);
+    background: #62985f;
+    color: white;
   }
   .submit:hover {
     border: 1px solid black;
@@ -43,7 +106,7 @@
   }
   
   @media (max-width: 1200px) {
-    .gambarRegister {
+    .imgRegister {
       max-width: 0rem;
     }
     .r-right {

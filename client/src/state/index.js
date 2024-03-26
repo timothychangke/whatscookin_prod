@@ -1,6 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 //state accessible throughout the entire application
+/**
+ * This code sets the initial state for your Redux application. It defines properties for theme (mode), user information (user), authentication token (token), 
+ * and post information (posts). The initial theme is light mode, no user is logged in (user is null), and there's no authentication token (token is null). 
+ * Additionally, no posts are loaded initially (posts is an empty array).
+ * 
+ * @date 27/03/2024 - 00:47:43
+ *
+ * @type {{ mode: string; user: any; token: any; posts: {}; }}
+ */
 const initialState = {
   //light mode or dark mode
   mode: 'light',
@@ -13,6 +22,14 @@ const initialState = {
 };
 
 //the boilerplate code
+/**
+ * This code creates a Redux slice named authSlice to manage application state. It defines reducers for actions that update various state properties: 
+ * theme, user information (upon login), authentication token, friend list (for logged-in users), and post information (fetching and updating individual posts).
+ * 
+ * @date 27/03/2024 - 00:47:43
+ *
+ * @type {*}
+ */
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -57,6 +74,15 @@ export const authSlice = createSlice({
   },
 });
 
+/**
+ * This code destructures the `actions` object from the `authSlice` reducer. It extracts specific actions for easier usage throughout the application. 
+ * These actions allow you to modify the Redux state by toggling theme mode (`setMode`), setting user information and token upon login (`setLogin`), 
+ * clearing them upon logout (`setLogout`), updating a user's friend list (`setFriends`), managing post information (`setPosts`), and updating individual posts (`setPost`).  
+ * 
+ * @date 27/03/2024 - 00:47:43
+ *
+ * @type {*}
+ */
 export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost } =
   authSlice.actions;
 export default authSlice.reducer

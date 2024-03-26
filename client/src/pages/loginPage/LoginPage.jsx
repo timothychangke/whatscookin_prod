@@ -9,8 +9,8 @@ import * as yup from 'yup';
 import Dropzone from 'react-dropzone';
 import FlexBox from 'components/UI/FlexBox';
 
-import loginPic from '../../../assets/images/loginPic.png';
-import registerPic from '../../../assets/images/registerPic.png'
+import loginPic from '../../assets/images/loginPic.png';
+import registerPic from '../../assets/images/registerPic.png';
 
 import {
   Box,
@@ -22,6 +22,14 @@ import {
 } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
+/**
+ * This function defines a Yup validation schema to ensure user registration data adheres to specific criteria. It enforces rules for strong passwords,
+ * valid email formats, and restricts names and bios to specific character sets and lengths.
+ *
+ * @date 27/03/2024 - 01:14:43
+ *
+ * @type {*}
+ */
 const registerSchema = yup.object().shape({
   //First name is a string of characters that cannot contain numbers, special characters and whitespaces
   firstName: yup
@@ -51,6 +59,14 @@ const registerSchema = yup.object().shape({
   picture: yup.string().required('Picture is required'),
 });
 
+/**
+ * This Yup schema validates user registration data. It restricts names to letters only, enforces strong password criteria (minimum length, uppercase/lowercase letters, numbers),
+ * and sets a maximum character limit for bios. Additionally, it requires all fields, including a user's profile picture path.
+ *
+ * @date 27/03/2024 - 01:14:43
+ *
+ * @type {*}
+ */
 const loginSchema = yup.object().shape({
   //Email must contain a '@' symbol and is in proper domain format
   email: yup.string().email('invalid email').required('Email is required'),
@@ -65,6 +81,14 @@ const loginSchema = yup.object().shape({
 });
 
 //set the initial values of the register form (empty values)
+/**
+ * This code defines the initial state for the user registration form. It creates an object with properties for each registration field, initializing them with empty strings.
+ * This object likely serves as the starting point for managing user input within your registration form.
+ *
+ * @date 27/03/2024 - 01:14:43
+ *
+ * @type {{ firstName: string; lastName: string; bio: string; picture: string; email: string; password: string; }}
+ */
 const registerStartState = {
   firstName: '',
   lastName: '',
@@ -75,11 +99,26 @@ const registerStartState = {
 };
 
 //set the initial values of the Login form (empty values)
+/**
+ * Similar to `registerStartState`, this code defines the initial state for the login form. It creates an object named `LoginStartState` with properties for `email` and `password`,
+ * both initialized with empty strings. This object acts as the starting point for managing user credentials within your login form.
+ *
+ * @date 27/03/2024 - 01:14:43
+ *
+ * @type {{ email: string; password: string; }}
+ */
 const LoginStartState = {
   email: '',
   password: '',
 };
 
+/**
+ * Combined login/register form with validation, Redux integration, and image upload for registration. Responsive layout. (Formik)
+ *
+ * @date 27/03/2024 - 01:14:43
+ *
+ * @returns {*}
+ */
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -266,7 +305,7 @@ function LoginPage() {
                         src={loginPic}
                         className="img-fluid"
                         alt="Login Pic"
-                        style={{width: '900px'}}
+                        style={{ width: '900px' }}
                       />
                     </div>
                   </div>
@@ -288,28 +327,47 @@ function LoginPage() {
               <div className="container-fluid r-left">
                 <div className="row">
                   <div className="col-0 col-xl-4  d-flex align-items-center justify-content-center ">
-                    {isNonMobileScreen && <div className=" d-flex align-items-center justify-content-center flex-column">
-                      <img style={{width: '600px', objectFit: 'cover', height: '300px', position: 'relative', left: '125px'}}
-                        src={registerPic}
-                        alt="Register Pic"
-                        className="img-fluid gambarRegister"
-                      />
-                      <img style={{width: '1000px', objectFit: 'cover', height: '300px', position: 'relative', right: '125px'}}
-                        src={registerPic}
-                        alt="Register Pic"
-                        className="img-fluid gambarRegister"
-                      />
-                      <img style={{width: '1000px', height: '300px', position: 'relative', left: '125px'}}
-                        src={registerPic}
-                        alt="Register Pic"
-                        className="img-fluid gambarRegister"
-                      />
-                    </div>}
-                    
+                    {isNonMobileScreen && (
+                      <div className=" d-flex align-items-center justify-content-center flex-column">
+                        <img
+                          style={{
+                            width: '600px',
+                            height: '300px',
+                            position: 'relative',
+                            left: '125px',
+                          }}
+                          src={registerPic}
+                          alt="Register Pic"
+                          className="img-fluid imgRegister"
+                        />
+                        <img
+                          style={{
+                            width: '1000px',
+                            height: '300px',
+                            position: 'relative',
+                            right: '125px',
+                          }}
+                          src={registerPic}
+                          alt="Register Pic"
+                          className="img-fluid imgRegister"
+                        />
+                        <img
+                          style={{
+                            width: '1000px',
+                            height: '300px',
+                            position: 'relative',
+                            left: '125px',
+                          }}
+                          src={registerPic}
+                          alt="Register Pic"
+                          className="img-fluid imgRegister"
+                        />
+                      </div>
+                    )}
                   </div>
                   <div className="col-12 col-xl-8   d-flex align-items-center justify-content-center vh-100 r-right">
                     <div className="col-11  col-xl-7">
-                      <h1 className="mb-5 titleRegister pt-4">Register</h1>
+                      <h1 className="mb-3 titleRegister pt-4">Register</h1>
                       <div className="d-flex justify-content-between">
                         <div className="col-6">
                           <div className="mb-3">

@@ -10,6 +10,14 @@ import User from '../../components/UserFeed/User'
 
 import { Box, useMediaQuery } from '@mui/material';
 
+/**
+ * A React component that renders a user's profile page. Fetches user data from a backend API using a GET request with authorization. 
+ * Incorporates responsive layout adjustments for different screen sizes.
+ * 
+ * @date 27/03/2024 - 00:47:10
+ *
+ * @returns {*}
+ */
 const ProfilePage = () => {
   //adjust layout for mobile screens
   const isNonMobileScreens = useMediaQuery('(min-width:1000px)');

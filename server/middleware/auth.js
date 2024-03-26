@@ -1,6 +1,18 @@
 import jwt from 'jsonwebtoken';
 
 //middleware for routes that require auth token verification
+/**
+ * This middleware function verifies JWT tokens. It extracts the token from the authorization header, validates its format, and decodes it using the secret key. 
+ * If valid, it stores the user information in req.user and continues the request flow. Errors are handled with a 500 status code.
+ * 
+ * @date 27/03/2024 - 00:35:47
+ *
+ * @async
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns {unknown}
+ */
 export const verifyToken = async (req, res, next) => {
   try {
     //grab the auth token set by the frontEnd

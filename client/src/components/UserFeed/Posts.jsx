@@ -5,6 +5,17 @@ import { setPosts } from 'state';
 import Post from './Post.jsx';
 
 //Posts will be used to get all the posts available, as well as all the posts that the user has posted
+/**
+ * This React component, `Posts`, displays a list of social media posts. It fetches posts data from the backend based on a user ID (all posts or user's own posts) 
+ * and leverages Redux to manage the post state. The component renders individual `Post` components for each retrieved post in reverse chronological order.
+ * 
+ * @date 27/03/2024 - 01:06:27
+ *
+ * @param {{ userId: any; isProfile?: boolean; }} param0
+ * @param {*} param0.userId
+ * @param {boolean} [param0.isProfile=false]
+ * @returns {*}
+ */
 const Posts = ({ userId, isProfile = false }) => {
   //be able to use the redux store
   const dispatch = useDispatch();

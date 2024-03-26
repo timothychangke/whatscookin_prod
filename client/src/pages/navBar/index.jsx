@@ -29,6 +29,13 @@ import {
   Close,
 } from '@mui/icons-material';
 
+/**
+ * Responsive navbar with user menu, theme toggle, and logout (Redux). (Mobile dropdown)
+ * 
+ * @date 27/03/2024 - 00:46:45
+ *
+ * @returns {*}
+ */
 const NavBar = () => {
   //set the colours of the navBar
   const theme = useTheme();

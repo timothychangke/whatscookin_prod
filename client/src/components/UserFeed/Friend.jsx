@@ -9,6 +9,20 @@ import { PersonAddOutlined, PersonRemoveOutlined } from '@mui/icons-material';
 import { Box, IconButton, Typography as Text, useTheme } from '@mui/material';
 
 //Friend component
+/**
+ * This React component, `Friend`, renders information for a user's friend. It retrieves friend data (ID, name, profile picture path) as props, leverages Redux to access user ID, 
+ * token, and friend list, and utilizes Material-UI components for styling. The component displays the friend's profile picture, name, 
+ * and a button to add/remove them from the friend list using the friend status and an API call upon clicking the button.  
+ * 
+ * @date 27/03/2024 - 01:01:30
+ *
+ * @param {{ friendId: any; firstName: any; lastName: any; userPicturePath: any; }} param0
+ * @param {*} param0.friendId
+ * @param {*} param0.firstName
+ * @param {*} param0.lastName
+ * @param {*} param0.userPicturePath
+ * @returns {*}
+ */
 const Friend = ({
   friendId,
   firstName,
