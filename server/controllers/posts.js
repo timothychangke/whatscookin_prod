@@ -1,41 +1,6 @@
 import Post from '../models/Post.js';
 import User from '../models/User.js';
 
-//CREATE
-//create a new post
-export const createPost = async (req, res) => {
-  try {
-    //get post attributes
-    const { userId, description, picturePath, postHeader } = req.body;
-    //find user by id
-    const userStoredInDB = await User.findById(userId);
-    //create new post with attributes
-    const newPost = new Post({
-      userId,
-      firstName: userStoredInDB.firstName,
-      lastName: userStoredInDB.lastName,
-      postHeader: userStoredInDB.postHeader,
-      description: userStoredInDB.description,
-      userPicturePath: userStoredInDB.picturePath,
-      picturePath,
-      likes: {},
-      comments: {},
-    });
-
-    //save into the mongoDB
-    await newPost.save();
-
-    //grab all posts including the new post
-    const allPosts = await Post.find();
-    //201 status: successful creation
-    res.status(201).json(allPosts);
-
-  } catch (err) {
-    //409 status: unable to create resource
-    res.status(409).json({ message: err.message });
-  }
-};
-
 //READ
 //read all posts
 export const getFeedPosts = async (req, res) => {
@@ -99,5 +64,40 @@ export const likePost = async (req, res) => {
   } catch (err) {
     //404 status: unable to find requested resource
     res.status(404).json({ messaage: err.message });
+  }
+};
+
+//CREATE
+//create a new post
+export const createPost = async (req, res) => {
+  try {
+    //get post attributes
+    const { userId, description, picturePath, postHeader } = req.body;
+    //find user by id
+    const userStoredInDB = await User.findById(userId);
+    //create new post with attributes
+    const newPost = new Post({
+      userId,
+      firstName: userStoredInDB.firstName,
+      lastName: userStoredInDB.lastName,
+      postHeader: postHeader,
+      description: description,
+      userPicturePath: userStoredInDB.picturePath,
+      picturePath,
+      likes: {},
+      comments: [],
+    });
+
+    //save into the mongoDB
+    await newPost.save();
+
+    //grab all posts including the new post
+    const allPosts = await Post.find();
+    //201 status: successful creation
+    res.status(201).json(allPosts);
+
+  } catch (err) {
+    //409 status: unable to create resource
+    res.status(409).json({ message: err.message });
   }
 };
