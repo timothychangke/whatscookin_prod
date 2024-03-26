@@ -3,6 +3,17 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 //logging in
+/**
+ * This login function takes email and password from a request, validates them against the database, and sends a JWT token with user information upon successful login. 
+ * It also handles errors by returning appropriate status codes and messages.
+ * 
+ * @date 27/03/2024 - 00:25:37
+ *
+ * @async
+ * @param {*} req
+ * @param {*} res
+ * @returns {unknown}
+ */
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -30,6 +41,17 @@ export const login = async (req, res) => {
 };
 
 //registering a user
+/**
+ * This registration function accepts user information from a request body. It hashes the password, creates a new user object with the hashed password, and saves it to the database using Mongoose.
+ * Upon successful registration, it returns the newly created user with a 201 status code. In case of errors, it returns a 500 status code with the error message.
+ * 
+ * @date 27/03/2024 - 00:25:37
+ *
+ * @async
+ * @param {*} req
+ * @param {*} res
+ * @returns {*}
+ */
 export const register = async (req, res) => {
   try {
     //get user attributes

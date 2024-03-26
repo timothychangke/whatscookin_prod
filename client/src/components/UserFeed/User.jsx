@@ -14,6 +14,18 @@ import {
 } from '@mui/icons-material';
 import { Box, Typography as Text, Divider, useTheme } from '@mui/material';
 
+/**
+ * This React component, `User`, displays a user profile. It fetches user data (name, bio, friends, etc.) from the backend based on a user ID and leverages Redux to access the token for authorization.
+ * The component renders user information, friend count, bio, profile view count (placeholder for now), and contact details. 
+ * 
+ * @date 27/03/2024 - 01:07:16
+ *
+ * @export
+ * @param {{ userId: any; picturePath: any; }} param0
+ * @param {*} param0.userId
+ * @param {*} param0.picturePath
+ * @returns {*}
+ */
 export default function User({ userId, picturePath }) {
   //set the colors of the widget
   const { palette } = useTheme();

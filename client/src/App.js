@@ -2,7 +2,7 @@
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 import HomePage from 'pages/homePage';
 // import LoginPage from 'pages/loginPage';
-import LoginPage from 'pages/loginPage/WIP/LoginPage';
+import LoginPage from 'pages/loginPage/LoginPage.jsx';
 import ProfilePage from 'pages/profilePage';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';

@@ -8,6 +8,13 @@ import FriendList from 'components/UserFeed/FriendList';
 
 import { Box, useMediaQuery } from '@mui/material';
 
+/**
+ * Renders the home page of the application. This page displays the navigation bar, user information, posting section, user feed, and friend list (on non-mobile screens).
+
+ * @date 27/03/2024 - 00:42:13
+ *
+ * @returns {*}
+ */
 const HomePage = () => {
   //check whether it is a mobile screen
   const isNonMobileScreens = useMediaQuery('(min-width:1000px)');

@@ -3,6 +3,17 @@ import User from '../models/User.js';
 
 //READ
 //read all posts
+/**
+ * This function retrieves all posts from the database using Mongoose. If successful, it returns a 200 status code with an array containing all retrieved posts. 
+ * In case of errors, it returns a 404 status code indicating "unable to find requested resource" along with the error message. 
+ * 
+ * @date 27/03/2024 - 00:27:17
+ *
+ * @async
+ * @param {*} req
+ * @param {*} res
+ * @returns {*}
+ */
 export const getFeedPosts = async (req, res) => {
   try {
     //grab all posts
@@ -16,6 +27,18 @@ export const getFeedPosts = async (req, res) => {
   }
 };
 
+/**
+ * This function fetches posts authored by a specific user. It extracts the user ID from the request parameters and uses Mongoose to find all posts where the `userId` field matches the extracted ID. 
+ * Upon success, it returns a 200 status code with an array containing the retrieved posts for that user. Similar to `getFeedPosts`, 
+ * it handles errors by returning a 404 status code indicating "unable to find requested resource" along with the error message.
+ * 
+ * @date 27/03/2024 - 00:27:17
+ *
+ * @async
+ * @param {*} req
+ * @param {*} res
+ * @returns {*}
+ */
 export const getUserPosts = async (req, res) => {
   try {
     //get user id
@@ -32,6 +55,17 @@ export const getUserPosts = async (req, res) => {
 };
 
 //UPDATE
+/**
+ * This function toggles a user's like on a post. It retrieves the post by ID, checks the user's like status, and updates the likes map accordingly. 
+ * Finally, it updates the post and returns it upon success. Errors are handled with a 404 status code.
+ * 
+ * @date 27/03/2024 - 00:27:17
+ *
+ * @async
+ * @param {*} req
+ * @param {*} res
+ * @returns {*}
+ */
 export const likePost = async (req, res) => {
   try {
     //id comes from params
@@ -69,6 +103,18 @@ export const likePost = async (req, res) => {
 
 //CREATE
 //create a new post
+/**
+ * This function creates a new post. It retrieves post details and user information from the request body, builds a new Post object, and saves it to the database. 
+ * Upon success, it returns a 201 status code with all retrieved posts including the newly created one. In case of errors, 
+ * it returns a 409 status code indicating "unable to create resource" along with the error message.
+ * 
+ * @date 27/03/2024 - 00:27:17
+ *
+ * @async
+ * @param {*} req
+ * @param {*} res
+ * @returns {*}
+ */
 export const createPost = async (req, res) => {
   try {
     //get post attributes

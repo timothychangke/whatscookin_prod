@@ -23,7 +23,19 @@ import {
   useMediaQuery,
 } from '@mui/material';
 
-export default function MyPostWidget({ picturePath }) {
+/**
+ * This React component, MyPostWidget, allows users to create social media posts. It leverages Redux to access user ID and token, Material-UI components for styling, 
+ * and a third-party library for drag-and-drop image uploads. The component provides sections for entering a post title, description, and optionally attaching an image. 
+ * Users can share their post upon filling in the required fields (title and description).
+ * 
+ * @date 27/03/2024 - 01:04:49
+ *
+ * @export
+ * @param {{ picturePath: any; }} param0
+ * @param {*} param0.picturePath
+ * @returns {*}
+ */
+export default function Posting({ picturePath }) {
   //grabbing of the color from the palette theme
   const { palette } = useTheme();
   //grab mediumMain palette

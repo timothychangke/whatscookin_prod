@@ -8,6 +8,16 @@ import Container from 'components/UI/Container';
 import { Box, Typography as Text, useTheme } from '@mui/material';
 
 //component that displays the friend list
+/**
+ * This React component, FriendList, fetches and displays a user's friend list. It retrieves the user ID via props, uses Redux to access the user's token and friend data, 
+ * and leverages Material-UI for styling. Upon component rendering, it makes an API call to fetch friends' information and renders individual Friend components for each friend within a styled container.
+ * 
+ * @date 27/03/2024 - 01:03:04
+ *
+ * @param {{ userId: any; }} param0
+ * @param {*} param0.userId
+ * @returns {*}
+ */
 const FriendList = ({ userId }) => {
   //set color theme for friendlist
   const { palette } = useTheme();

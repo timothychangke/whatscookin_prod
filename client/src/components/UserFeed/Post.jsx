@@ -20,6 +20,26 @@ import {
   useTheme,
 } from '@mui/material';
 
+/**
+ * This React component, `Post`, displays an individual social media post. It receives post details (user information, content, likes, comments) as props, 
+ * accesses user and token data from Redux, and utilizes Material-UI components for styling. The component renders the post header, description (including a picture if provided), 
+ * like/comment counts, like button functionality, comments list (toggled with a button), and individual comments within the list. 
+ * 
+ * @date 27/03/2024 - 01:03:33
+ *
+ * @param {{ postId: any; postUserId: any; firstName: any; lastName: any; postHeader: any; description: any; picturePath: any; userPicturePath: any; likes: any; comments: any; }} param0
+ * @param {*} param0.postId
+ * @param {*} param0.postUserId
+ * @param {*} param0.firstName
+ * @param {*} param0.lastName
+ * @param {*} param0.postHeader
+ * @param {*} param0.description
+ * @param {*} param0.picturePath
+ * @param {*} param0.userPicturePath
+ * @param {*} param0.likes
+ * @param {*} param0.comments
+ * @returns {*}
+ */
 const Post = ({
   postId,
   postUserId,
