@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: client/src/components/UserFeed/Post.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: client/src/components/UserFeed/Post.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPost } from 'state';
+
+import FlexBox from 'components/UI/FlexBox';
+import Friend from './Friend.jsx';
+import Container from 'components/UI/Container.jsx';
+
+import {
+  ChatBubbleOutlineOutlined,
+  FavoriteBorderOutlined,
+  FavoriteOutlined,
+  Insights,
+} from '@mui/icons-material';
+import {
+  Box,
+  Divider,
+  IconButton,
+  Typography as Text,
+  useTheme,
+} from '@mui/material';
+
+/**
+ * This React component, `Post`, displays an individual social media post. It receives post details (user information, content, likes, comments) as props, 
+ * accesses user and token data from Redux, and utilizes Material-UI components for styling. The component renders the post header, description (including a picture if provided), 
+ * like/comment counts, like button functionality, comments list (toggled with a button), and individual comments within the list. 
+ * 
+ * @date 27/03/2024 - 01:03:33
+ *
+ * @param {{ postId: any; postUserId: any; firstName: any; lastName: any; postHeader: any; description: any; picturePath: any; userPicturePath: any; likes: any; comments: any; }} param0
+ * @param {*} param0.postId
+ * @param {*} param0.postUserId
+ * @param {*} param0.firstName
+ * @param {*} param0.lastName
+ * @param {*} param0.postHeader
+ * @param {*} param0.description
+ * @param {*} param0.picturePath
+ * @param {*} param0.userPicturePath
+ * @param {*} param0.likes
+ * @param {*} param0.comments
+ * @returns {*}
+ */
+const Post = ({
+  postId,
+  postUserId,
+  firstName,
+  lastName,
+  postHeader,
+  description,
+  picturePath,
+  userPicturePath,
+  likes,
+  comments,
+}) => {
+  //get access to the palette via useTheme
+  const { palette } = useTheme();
+  //set colors of the friend component
+  const main = palette.neutral.main;
+  const primary = palette.primary.main;
+
+  //const get state from redux store
+  const dispatch = useDispatch();
+  //get token from redux store
+  const token = useSelector((state) => state.token);
+  //get logged in user id from the redux store
+  const loggedInUserId = useSelector((state) => state.user._id);
+
+  //create a state of record whether the comments list is open or not
+  const [isComments, setIsComments] = useState(false);
+
+  //likes on the backend is a hashmap of the key being userid and the value being a boolean value of whether the post is liked by that user
+  const isLiked = Boolean(likes[loggedInUserId]);
+  //get the like count
+  const likeCount = Object.keys(likes).length;
+
+  //function to like if not liked previously and unlike if liked previously
+  const changeLikeStatus = async () => {
+    //an api call to the backend to patch the like status
+    const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
+      //patch method is used as liked array is modified partially
+      method: 'PATCH',
+      //authorisation headers
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
+      },
+      //pass the userId to the backend so that they can keep track on whether the userId has liked the post
+      body: JSON.stringify({ userId: loggedInUserId }),
+    });
+    //get back the entire post with the updated likes array
+    const updatedPost = await response.json();
+    //set Post looks through all the posts to find and replace the newly updated post
+    dispatch(setPost({ post: updatedPost }));
+  };
+
+  return (
+    &lt;Container m="2rem 0">
+      &lt;Friend
+        friendId={postUserId}
+        firstName={firstName}
+        lastName={lastName}
+        userPicturePath={userPicturePath}
+      />
+      &lt;Text color={main} sx={{ mt: '1rem' }}>
+        {description}
+      &lt;/Text>{' '}
+      {picturePath &amp;&amp; (
+        &lt;img
+          width="100%"
+          height="auto"
+          alt="post"
+          style={{ borderRadius: '0.75rem', marginTop: '0.75rem' }}
+          src={`http://localhost:3001/assets/${picturePath}`}
+        />
+      )}
+      &lt;FlexBox mt="0.25rem">
+        &lt;FlexBox gap="1rem">
+          &lt;FlexBox gap="0.3rem">
+            &lt;IconButton onClick={changeLikeStatus}>
+              {isLiked ? (
+                &lt;FavoriteOutlined sx={{ color: primary }} />
+              ) : (
+                &lt;FavoriteBorderOutlined />
+              )}
+            &lt;/IconButton>
+            &lt;Text>{likeCount}&lt;/Text>
+          &lt;/FlexBox>
+
+          &lt;FlexBox gap="0.3rem">
+            &lt;IconButton onClick={() => setIsComments(!isComments)}>
+              &lt;ChatBubbleOutlineOutlined />
+            &lt;/IconButton>
+            &lt;Text>{Object.keys(comments).length}&lt;/Text>
+          &lt;/FlexBox>
+        &lt;/FlexBox>
+        &lt;IconButton>
+          &lt;Insights sx={{fontSize: '2rem'}}/>
+        &lt;/IconButton>
+      &lt;/FlexBox>
+      {isComments &amp;&amp; (
+        &lt;Box mt="0.5rem">
+          {comments.map((comment, idx) => (
+            //make the key truly unique
+            &lt;Box key={`${firstName}${lastName}-${idx}`}>
+              &lt;Divider />
+              &lt;Text sx={{ color: main, m: '0.5rem 0', pl: '1rem' }}>
+                {comment}
+              &lt;/Text>
+            &lt;/Box>
+          ))}
+          &lt;Divider />
+        &lt;/Box>
+      )}
+    &lt;/Container>
+  );
+};
+
+export default Post;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html"></a></li><li><a href="global.html#Axiosrecipecall">Axiosrecipecall</a></li><li><a href="global.html#Container">Container</a></li><li><a href="global.html#FlexBox">FlexBox</a></li><li><a href="global.html#Friend">Friend</a></li><li><a href="global.html#FriendList">FriendList</a></li><li><a href="global.html#HomePage">HomePage</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#LoginStartState">LoginStartState</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#Posts">Posts</a></li><li><a href="global.html#ProfilePage">ProfilePage</a></li><li><a href="global.html#Recipe">Recipe</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#UserSchema">UserSchema</a></li><li><a href="global.html#addRemoveFriend">addRemoveFriend</a></li><li><a href="global.html#authSlice">authSlice</a></li><li><a href="global.html#createPost">createPost</a></li><li><a href="global.html#getFeedPosts">getFeedPosts</a></li><li><a href="global.html#getUser">getUser</a></li><li><a href="global.html#getUserFriends">getUserFriends</a></li><li><a href="global.html#getUserPosts">getUserPosts</a></li><li><a href="global.html#initialState">initialState</a></li><li><a href="global.html#likePost">likePost</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#loginSchema">loginSchema</a></li><li><a href="global.html#postSchema">postSchema</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#registerSchema">registerSchema</a></li><li><a href="global.html#registerStartState">registerStartState</a></li><li><a href="global.html#router">router</a></li><li><a href="global.html#verifyToken">verifyToken</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Mar 27 2024 23:39:35 GMT+0800 (Singapore Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
