@@ -1,6 +1,6 @@
-<img width="660" alt="image" src="https://github.com/timothychangke/WhatsCookin/assets/101695218/3c7080b3-e036-431b-a6ca-c4be611f16f9"># React + Node Application
+# SC2006 What's cookin - a Food Social Media
 
-This repository contains a full-stack web application built with React.js for the frontend and Node.js for the backend. The frontend communicates with the backend through HTTP requests. The backend is built with Express.js and utilizes MongoDB for data storage.
+This repository contains a full-stack web application built with React.js for the frontend and Node.js for the backend. The frontend utilises bootrap and material ui for styling. The backend is built with Express.js and utilizes MongoDB for data storage.
 
 ## Prerequisites
 
