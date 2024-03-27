@@ -1,4 +1,4 @@
-# React + Node Application
+<img width="660" alt="image" src="https://github.com/timothychangke/WhatsCookin/assets/101695218/3c7080b3-e036-431b-a6ca-c4be611f16f9"># React + Node Application
 
 This repository contains a full-stack web application built with React.js for the frontend and Node.js for the backend. The frontend communicates with the backend through HTTP requests. The backend is built with Express.js and utilizes MongoDB for data storage.
 
@@ -15,7 +15,7 @@ Make sure you have the following software installed on your system:
 1. Clone the repository to your local machine:
 
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/timothychangke/WhatsCookin
     ```
 2. Create a .env file in the server folder. The Environment Variables have been emailed to Teaching Assistant Xue Zheng Hai. Email me at tchangka001@e.ntu.edu.sg to request a copy.
 
