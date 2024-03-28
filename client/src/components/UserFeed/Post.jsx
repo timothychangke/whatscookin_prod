@@ -5,6 +5,7 @@ import { setPost } from 'state';
 import FlexBox from 'components/UI/FlexBox';
 import Friend from './Friend.jsx';
 import Container from 'components/UI/Container.jsx';
+import calcTimeSincePost from 'utils/calcTimeSincePost.js';
 
 import {
   ChatBubbleOutlineOutlined,
@@ -21,10 +22,10 @@ import {
 } from '@mui/material';
 
 /**
- * This React component, `Post`, displays an individual social media post. It receives post details (user information, content, likes, comments) as props, 
- * accesses user and token data from Redux, and utilizes Material-UI components for styling. The component renders the post header, description (including a picture if provided), 
- * like/comment counts, like button functionality, comments list (toggled with a button), and individual comments within the list. 
- * 
+ * This React component, `Post`, displays an individual social media post. It receives post details (user information, content, likes, comments) as props,
+ * accesses user and token data from Redux, and utilizes Material-UI components for styling. The component renders the post header, description (including a picture if provided),
+ * like/comment counts, like button functionality, comments list (toggled with a button), and individual comments within the list.
+ *
  * @date 27/03/2024 - 01:03:33
  *
  * @param {{ postId: any; postUserId: any; firstName: any; lastName: any; postHeader: any; description: any; picturePath: any; userPicturePath: any; likes: any; comments: any; }} param0
@@ -51,6 +52,7 @@ const Post = ({
   userPicturePath,
   likes,
   comments,
+  updatedAt,
 }) => {
   //get access to the palette via useTheme
   const { palette } = useTheme();
@@ -134,7 +136,7 @@ const Post = ({
           </FlexBox>
         </FlexBox>
         <IconButton>
-          <Insights sx={{fontSize: '2rem'}}/>
+          <Insights sx={{ fontSize: '2rem' }} />
         </IconButton>
       </FlexBox>
       {isComments && (
@@ -151,6 +153,11 @@ const Post = ({
           <Divider />
         </Box>
       )}
+      <FlexBox sx={{ marginTop: '0.5rem' }}>
+        <Text color={main} sx={{ fontSize: '0.6rem', marginLeft: 'auto' }}>
+          {calcTimeSincePost(updatedAt)}
+        </Text>
+      </FlexBox>
     </Container>
   );
 };
