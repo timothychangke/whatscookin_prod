@@ -20,12 +20,12 @@ export const login = async (req, res) => {
     //find the email in mongoose
     const userStoredInDB = await User.findOne({ email: email });
     //400 status: client-side error
-    if (!userStoredInDB) return res.status(400).json({ msg: 'User does not exist. ' });
+    if (!userStoredInDB) return res.status(400).json({ error: 'User does not exist. ' });
 
     //check password hash with password hash saved in database
     const passwordMatch = await bcrypt.compare(password, userStoredInDB.password);
     //400 status: client-side error
-    if (!passwordMatch) return res.status(400).json({ msg: 'Invalid credentials. ' });
+    if (!passwordMatch) return res.status(400).json({ error: 'Invalid credentials. ' });
 
     //issue jwt token
     const authToken = jwt.sign({ id: userStoredInDB.id }, process.env.JWT_SECRET);

@@ -7,6 +7,8 @@ import RecipeDialog from 'components/API WIP/RecipeDialog';
 import FlexBox from 'components/UI/FlexBox';
 import Friend from './Friend.jsx';
 import Container from 'components/UI/Container.jsx';
+import calcTimeSincePost from 'utils/calcTimeSincePost.js';
+import { toast } from 'react-hot-toast';
 
 import {
   ChatBubbleOutlineOutlined,
@@ -16,17 +18,19 @@ import {
 } from '@mui/icons-material';
 import {
   Box,
+  Button,
   Divider,
   IconButton,
   Typography as Text,
+  InputBase,
   useTheme,
 } from '@mui/material';
 
 /**
- * This React component, `Post`, displays an individual social media post. It receives post details (user information, content, likes, comments) as props, 
- * accesses user and token data from Redux, and utilizes Material-UI components for styling. The component renders the post header, description (including a picture if provided), 
- * like/comment counts, like button functionality, comments list (toggled with a button), and individual comments within the list. 
- * 
+ * This React component, `Post`, displays an individual social media post. It receives post details (user information, content, likes, comments) as props,
+ * accesses user and token data from Redux, and utilizes Material-UI components for styling. The component renders the post header, description (including a picture if provided),
+ * like/comment counts, like button functionality, comments list (toggled with a button), and individual comments within the list.
+ *
  * @date 27/03/2024 - 01:03:33
  *
  * @param {{ postId: any; postUserId: any; firstName: any; lastName: any; postHeader: any; description: any; picturePath: any; userPicturePath: any; likes: any; comments: any; }} param0
@@ -53,6 +57,7 @@ const Post = ({
   userPicturePath,
   likes,
   comments,
+  createdAt,
 }) => {
   //get access to the palette via useTheme
   const { palette } = useTheme();
@@ -69,6 +74,8 @@ const Post = ({
 
   //create a state of record whether the comments list is open or not
   const [isComments, setIsComments] = useState(false);
+  //create state of post comments
+  const [postComments, setPostComments] = useState('');
 
   //likes on the backend is a hashmap of the key being userid and the value being a boolean value of whether the post is liked by that user
   const isLiked = Boolean(likes[loggedInUserId]);
@@ -99,6 +106,35 @@ const Post = ({
   const [showRecipeDialog, setShowRecipeDialog] = useState(false);
   const openDialog = () => setShowRecipeDialog(true);
   const closeDialog = () => setShowRecipeDialog(false);
+  //function to share comments
+  const shareComment = async () => {
+    //an api call to the backend to add the new comment
+    const response = await fetch(
+      `http://localhost:3001/posts/${postId}/comment`,
+      {
+        //post method is a new comment is added
+        method: 'POST',
+        //authorisation headers
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+        //pass the new comment to the backend
+        body: JSON.stringify({ comment: postComments }),
+      },
+    );
+    //get back the entire post with the updated comments
+    const updatedPost = await response.json();
+    if (updatedPost.error) {
+      toast.error(updatedPost.error);
+    } else {
+      toast.success('Comment successfully added.')
+      //set Post looks through all the posts to find and replace the newly updated post
+      dispatch(setPost({ post: updatedPost }));
+      //clear the comments input section
+      setPostComments('');
+    }
+  };
   return (
     <Container m="2rem 0">
       <Friend
@@ -140,7 +176,7 @@ const Post = ({
           </FlexBox>
         </FlexBox>
         <IconButton>
-          <Insights sx={{fontSize: '2rem'}}/>
+          <Insights sx={{ fontSize: '2rem' }} />
         </IconButton>
       </FlexBox>
       {isComments && (
@@ -154,6 +190,33 @@ const Post = ({
               </Text>
             </Box>
           ))}
+          <Divider sx={{ margin: '0 0 1.25rem 0' }} />
+          <FlexBox gap="1.5rem" paddingBottom="1rem">
+            <InputBase
+              placeholder="Add a comment..."
+              onChange={(e) => setPostComments(e.target.value)}
+              value={postComments}
+              sx={{
+                width: '100%',
+                backgroundColor: palette.neutral.light,
+                borderRadius: '2rem',
+                padding: '0.3rem 2rem',
+              }}
+            />
+            <Button
+              disabled={!postComments}
+              onClick={shareComment}
+              sx={{
+                color: postComments ? palette.background.alt : null,
+                backgroundColor: postComments
+                  ? palette.primary.main
+                  : palette.primary.light,
+                borderRadius: '3rem',
+              }}
+            >
+              POST
+            </Button>
+          </FlexBox>
           <Divider />
         </Box>
       )}
@@ -161,6 +224,10 @@ const Post = ({
       <button onClick={openDialog}>Informations</button>
       <button onClick={closeDialog} disabled={!showRecipeDialog}>Close</button>
       {showRecipeDialog && <RecipeDialog foodName={postHeader}/>}
+      <FlexBox sx={{ marginTop: '0.5rem' }}>
+        <Text color={main} sx={{ fontSize: '0.6rem', marginLeft: 'auto' }}>
+          {calcTimeSincePost(createdAt)}
+        </Text>
       </FlexBox>
     </Container>
   );

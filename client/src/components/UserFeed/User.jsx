@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import UserImage from '../UI/UserImage';
 import FlexBox from '../UI/FlexBox';
 import Container from '../UI/Container';
+import calcOwnLikes from 'utils/calcOwnLikes';
+import calcOwnPosts from 'utils/calcOwnPosts';
 
 import {
   ManageAccountsOutlined,
@@ -47,6 +49,11 @@ export default function User({ userId, picturePath }) {
   const [profileViewer, setProfileViewer] = useState(
     Math.floor(Math.random() * 100),
   );
+  //get friends from redux store to calculate friends list
+  const friends = useSelector((state) => state.user.friends);
+  //get posts from redux store
+  const posts  = useSelector((state) => state.posts)
+
 
   //call backend to get user
   const getUser = async () => {
@@ -72,8 +79,8 @@ export default function User({ userId, picturePath }) {
   }
 
   //destructure the User object
-  const { firstName, lastName, bio, friends, email } = user;
-
+  const { firstName, lastName, bio, email, _id } = user;
+  
   return (
     <Container>
       <FlexBox
@@ -94,14 +101,14 @@ export default function User({ userId, picturePath }) {
             >
               {firstName} {lastName}
             </Text>
-            <Text color={medium}>{friends.length} friends</Text>
+            <Text color={medium}>{friends.length == 1 ? `${friends.length} friend` : `${friends.length} friends`}</Text>
           </Box>
         </FlexBox>
         <ManageAccountsOutlined />
       </FlexBox>
       <Divider />
       <Box p="1rem 0">
-        <Box display="flex" alighItems="center" gap="1rem" mb="0.5rem">
+        <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
           <DescriptionOutlined fontSize="large" sx={{ color: main }} />
           <Text color={medium}>{bio}</Text>
         </Box>
@@ -117,13 +124,13 @@ export default function User({ userId, picturePath }) {
         <FlexBox mb="0.5rem">
           <Text color={medium}>Total Likes</Text>
           <Text color={medium} fontWeight="500">
-            wip
+            {calcOwnLikes(posts, _id)}
           </Text>
         </FlexBox>
         <FlexBox mb="0.5rem">
           <Text color={medium}>Posts made</Text>
           <Text color={medium} fontWeight="500">
-            wip
+            {calcOwnPosts(posts, _id)}
           </Text>
         </FlexBox>
       </Box>

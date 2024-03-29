@@ -5,6 +5,7 @@ import { useState } from 'react';
 import './Login.css';
 
 import { Formik } from 'formik';
+import { toast } from 'react-hot-toast';
 import * as yup from 'yup';
 import Dropzone from 'react-dropzone';
 import FlexBox from 'components/UI/FlexBox';
@@ -165,11 +166,18 @@ function LoginPage() {
     );
     //invoke saveUserResponse and parse the object
     const savedUser = await savedUserResponse.json();
-    //reset the form after request is done
-    onSubmitProps.resetForm();
-    //if user is successfully obtained
-    if (savedUser) {
-      setPageType('login');
+    //if savedUser has an error
+    if (savedUser.error) {
+      //push a toast notification of the error message
+      toast.error(savedUser.error);
+    } else {
+      //reset the form after request is done
+      onSubmitProps.resetForm();
+      //if user is successfully obtained
+      if (savedUser) {
+        toast.success('Sign up successful. Please Login');
+        setPageType('login');
+      }
     }
   };
 
@@ -185,21 +193,30 @@ function LoginPage() {
         body: JSON.stringify(values),
       },
     );
+    //invoke loggedInResponse and parse the object
     const loggedIn = await loggedInResponse.json();
-    //reset the form after request is done
-    onSubmitProps.resetForm();
-    //if user is successfully logged in
-    if (loggedIn) {
-      //dispatch redux state action
-      dispatch(
-        //pass in payload
-        setLogin({
-          user: loggedIn.userStoredInDB,
-          token: loggedIn.authToken,
-        }),
-      );
-      //authentication is successful and you can navigate home
-      navigate('/home');
+    //if loggedIn error exists
+    if (loggedIn.error) {
+      //push a toast notification of the error message
+      toast.error(loggedIn.error);
+    } else {
+      //reset the form after request is done
+      onSubmitProps.resetForm();
+      //if user is successfully logged in
+      if (loggedIn) {
+        //dispatch redux state action
+        dispatch(
+          //pass in payload
+          setLogin({
+            user: loggedIn.userStoredInDB,
+            token: loggedIn.authToken,
+          }),
+        );
+        //push a successfull login toast notification
+        toast.success('Login successful. Welcome!');
+        //authentication is successful and you can navigate home
+        navigate('/home');
+      }
     }
   };
 

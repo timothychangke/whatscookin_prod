@@ -101,6 +101,32 @@ export const likePost = async (req, res) => {
   }
 };
 
+export const addComments = async (req, res) => {
+  try {
+    //id comes from params
+    const { id } = req.params;
+    //userId comes from body
+    const { comment } = req.body;
+    
+    //find post by id
+    const postByUser = await Post.findById(id);
+    //get existing comments of that post
+    const newComments = [...postByUser.comments, comment]
+    //update post
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      { comments: newComments },
+      { new: true }
+    );
+    //200 status: successful request
+    res.status(200).json(updatedPost)
+    
+  } catch (err) {
+    //404 status: unable to find requested resource
+    res.status(404).json({ messaage: err.message });
+  }
+};
+
 //CREATE
 //create a new post
 /**
@@ -144,6 +170,6 @@ export const createPost = async (req, res) => {
 
   } catch (err) {
     //409 status: unable to create resource
-    res.status(409).json({ message: err.message });
+    res.status(409).json({ error: err.message });
   }
 };
