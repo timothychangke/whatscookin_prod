@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPost } from 'state';
 
-import RecipeDialog from 'components/API WIP/RecipeDialog'; 
+import RecipeDialog from 'components/API WIP/RecipeDialog';
 
 import FlexBox from 'components/UI/FlexBox';
 import Friend from './Friend.jsx';
@@ -104,8 +104,6 @@ const Post = ({
 
   //handling recipe content from API
   const [showRecipeDialog, setShowRecipeDialog] = useState(false);
-  const openDialog = () => setShowRecipeDialog(true);
-  const closeDialog = () => setShowRecipeDialog(false);
   //function to share comments
   const shareComment = async () => {
     //an api call to the backend to add the new comment
@@ -128,7 +126,7 @@ const Post = ({
     if (updatedPost.error) {
       toast.error(updatedPost.error);
     } else {
-      toast.success('Comment successfully added.')
+      toast.success('Comment successfully added.');
       //set Post looks through all the posts to find and replace the newly updated post
       dispatch(setPost({ post: updatedPost }));
       //clear the comments input section
@@ -175,7 +173,7 @@ const Post = ({
             <Text>{Object.keys(comments).length}</Text>
           </FlexBox>
         </FlexBox>
-        <IconButton>
+        <IconButton onClick={(() => setShowRecipeDialog(!showRecipeDialog))}>
           <Insights sx={{ fontSize: '2rem' }} />
         </IconButton>
       </FlexBox>
@@ -221,9 +219,8 @@ const Post = ({
         </Box>
       )}
       <FlexBox>
-      <button onClick={openDialog}>Informations</button>
-      <button onClick={closeDialog} disabled={!showRecipeDialog}>Close</button>
-      {showRecipeDialog && <RecipeDialog foodName={postHeader}/>}
+        {showRecipeDialog && <RecipeDialog foodName={postHeader} />}
+      </FlexBox>
       <FlexBox sx={{ marginTop: '0.5rem' }}>
         <Text color={main} sx={{ fontSize: '0.6rem', marginLeft: 'auto' }}>
           {calcTimeSincePost(createdAt)}
