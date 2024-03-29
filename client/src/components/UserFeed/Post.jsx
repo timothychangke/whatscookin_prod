@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPost } from 'state';
 
+import RecipeDialog from 'components/API WIP/RecipeDialog'; 
+
 import FlexBox from 'components/UI/FlexBox';
 import Friend from './Friend.jsx';
 import Container from 'components/UI/Container.jsx';
@@ -100,6 +102,10 @@ const Post = ({
     dispatch(setPost({ post: updatedPost }));
   };
 
+  //handling recipe content from API
+  const [showRecipeDialog, setShowRecipeDialog] = useState(false);
+  const openDialog = () => setShowRecipeDialog(true);
+  const closeDialog = () => setShowRecipeDialog(false);
   //function to share comments
   const shareComment = async () => {
     //an api call to the backend to add the new comment
@@ -129,7 +135,6 @@ const Post = ({
       setPostComments('');
     }
   };
-
   return (
     <Container m="2rem 0">
       <Friend
@@ -215,6 +220,10 @@ const Post = ({
           <Divider />
         </Box>
       )}
+      <FlexBox>
+      <button onClick={openDialog}>Informations</button>
+      <button onClick={closeDialog} disabled={!showRecipeDialog}>Close</button>
+      {showRecipeDialog && <RecipeDialog foodName={postHeader}/>}
       <FlexBox sx={{ marginTop: '0.5rem' }}>
         <Text color={main} sx={{ fontSize: '0.6rem', marginLeft: 'auto' }}>
           {calcTimeSincePost(createdAt)}

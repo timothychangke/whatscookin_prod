@@ -1,0 +1,7 @@
+#recipe-dialog {
+    display: flex; /* Enable flexbox for centering */
+    justify-content: center; /* Center horizontally */
+     align-items: center; /* Center vertically */
+    display: contents;
+    }
+  
