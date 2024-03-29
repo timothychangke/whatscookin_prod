@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
 import HomePage from 'pages/homePage';
 // import LoginPage from 'pages/loginPage';
@@ -9,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { themeSettings } from './theme.js';
-
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   //useSelector grabs the global state
@@ -24,6 +23,7 @@ function App() {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <Toaster position="bottom-right" toastOptions={{ duration: 2000 }} />
           <Routes>
             <Route path="/" element={<LoginPage />} />
             {/* <Route path="/" element={<RegisterPage />} /> */}

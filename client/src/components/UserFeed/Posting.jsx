@@ -6,6 +6,7 @@ import FlexBox from 'components/UI/FlexBox';
 import Dropzone from 'react-dropzone';
 import UserImage from 'components/UI/UserImage';
 import Container from 'components/UI/Container';
+import { toast } from 'react-hot-toast';
 
 import {
   EditOutlined,
@@ -24,10 +25,10 @@ import {
 } from '@mui/material';
 
 /**
- * This React component, MyPostWidget, allows users to create social media posts. It leverages Redux to access user ID and token, Material-UI components for styling, 
- * and a third-party library for drag-and-drop image uploads. The component provides sections for entering a post title, description, and optionally attaching an image. 
+ * This React component, MyPostWidget, allows users to create social media posts. It leverages Redux to access user ID and token, Material-UI components for styling,
+ * and a third-party library for drag-and-drop image uploads. The component provides sections for entering a post title, description, and optionally attaching an image.
  * Users can share their post upon filling in the required fields (title and description).
- * 
+ *
  * @date 27/03/2024 - 01:04:49
  *
  * @export
@@ -88,30 +89,37 @@ export default function Posting({ picturePath }) {
     });
     //async function to obtain post response
     const posts = await response.json();
-    //dispatch setPost action to set new post
-    dispatch(setPosts({ posts }));
-    //reset image state back to null
-    setImage(null);
-    //reset post description state back to an empty string
-    setPostDescription('');
-    //reset post header state back to an empty string
-    setPostHeader('');
+    //if there was error in posts
+    if (posts.error) {
+      //push a toast error notification of the error message
+      toast.error(posts.error);
+    } else {
+      toast.success('Successfully posted!')
+      //dispatch setPost action to set new post
+      dispatch(setPosts({ posts }));
+      //reset image state back to null
+      setImage(null);
+      //reset post description state back to an empty string
+      setPostDescription('');
+      //reset post header state back to an empty string
+      setPostHeader('');
+    }
   };
 
   return (
     <Container>
-      <FlexBox width='100%'>
+      <FlexBox width="100%">
         <Text
           fontWeight="bold"
-          fontSize="24px"
+          fontSize="28px"
           color="primary"
           paddingBottom={'8px'}
-          margin='auto'
+          margin="auto"
         >
           GOOD FOOD MUST SHARE!
         </Text>
       </FlexBox>
-      <Divider sx={{ margin: '0 0 1.25rem 0' }}/>
+      <Divider sx={{ margin: '0 0 1.25rem 0' }} />
       <FlexBox gap="1.5rem" paddingBottom="1rem">
         <UserImage image={picturePath} />
         <InputBase

@@ -87,7 +87,7 @@ const Posts = ({ userId, isProfile = false }) => {
           userPicturePath,
           likes,
           comments,
-          updatedAt
+          createdAt
         }) => (
           <Post
             key={_id}
@@ -101,7 +101,7 @@ const Posts = ({ userId, isProfile = false }) => {
             userPicturePath={userPicturePath}
             likes={likes}
             comments={comments}
-            updatedAt={updatedAt}
+            createdAt={createdAt}
           />
         ),
       )}
