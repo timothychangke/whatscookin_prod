@@ -1,72 +1,126 @@
 import React, { useState, useEffect } from 'react';
-import './RecipeDialog.css';
 import Axios from 'axios';
+import { useTheme } from '@mui/material';
+import getAllFoodData from './FoodData'; // Make sure this import path is correct
+import './RecipeDialog.css';
 
 const RecipeDialog = ({ foodName }) => {
-  const app_id = 'e243a229';
-  const app_key = '0dc63dbb444368a2123c9de54be9884e';
-  const url = `https://api.edamam.com/search?q=${foodName}&app_id=${app_id}&app_key=${app_key}`;
+  const [activeTab, setActiveTab] = useState('recipe');
+  const [data, setData] = useState({
+    ingredients: [],
+    nutrients: {},
+    recipeContent: '',
+  });
 
-  const [showRecipe, setShowRecipe] = useState(true);
-  const [recipes, setRecipe] = useState();
-  const [nutrition, setNutrition] = useState();
-  const handleRecipeClick = () => setShowRecipe(true);
-  const handleNutritionalClick = () => setShowRecipe(false);
-
-  const getRecipeInfo = async () => {
-    var result = await Axios.get(url);
-    return [result.data.hits[0]]; //set to 0 to return first hit so one result can play around with this
+  const { palette } = useTheme();
+  const tabStyle = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: '1rem',
   };
 
+  const buttonStyle = {
+    backgroundColor: palette.primary.light,
+    padding: '0.6rem',
+    margin: '0.3rem',
+    border: 'none',
+    cursor: 'pointer',
+  };
 
+  const contentAreaStyle = {
+    maxHeight: '500px',
+    overflowY: 'auto',
+  };
 
   useEffect(() => {
-    getRecipeInfo().then((data) => setRecipe(data));
-  }, []);
-
-  function GetContent() {
-    console.log(recipes)
-    if (recipes) {
-      if (showRecipe) {
-        return (
-          <div>
-            <h2>{recipes[0].recipe.label}</h2>
-            <ul>
-              {recipes[0].recipe.ingredients.map((line, lineIndex) => (
-                <li key={lineIndex}>{line.text}</li>
-              ))}
-            </ul>
-          </div>
-        );
-      } else {
-        return (
-          <div>
-            <h2>{recipes[0].recipe.label}</h2>
-            <ul>
-              {Object.keys(recipes[0]['recipe']['totalNutrients']).map(
-                (key) => {
-                  const value = recipes[0]['recipe']['totalNutrients'][key];
-                  return (
-                    <li key={key}>
-                      {value.label}: {Math.round(value.quantity)} {value.unit}
-                    </li>
-                  );
-                },
-              )}
-            </ul>
-          </div>
-        );
+    const fetchData = async () => {
+      try {
+        const allData = await getAllFoodData(foodName);
+        setData(allData);
+      } catch (error) {
+        console.error('Failed to fetch recipe data', error);
       }
+    };
+
+    fetchData();
+  }, [foodName]);
+
+  const renderRecipe = () => (
+    <div>
+      <h2>Recipe Ingredients</h2>
+      <ul>
+        {data.ingredients.map((ingredient, index) => (
+          <li key={index}>{ingredient}</li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  const renderNutrition = () => (
+    <div>
+      <h2>Nutritional Information</h2>
+      <ul>
+        {Object.entries(data.nutrients).map(([key, value]) => (
+          <li key={key}>
+            {value.label}: {Math.round(value.quantity)} {value.unit}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  const renderContent = () => {
+    // Assuming each step is separated by a newline character in `data.recipeContent`
+    const steps = data.recipeContent
+      .split('\n')
+      .map((step, index) => step.trim())
+      .filter((step) => step.length > 0);
+
+    return (
+      <div>
+        <h2> Recipe Content</h2>
+        <ol>
+          {steps.map((step, index) => (
+            <li className="list">{step}</li>
+          ))}
+        </ol>
+      </div>
+    );
+  };
+
+  const getContent = () => {
+    switch (activeTab) {
+      case 'recipe':
+        return renderRecipe();
+      case 'nutrition':
+        return renderNutrition();
+      case 'content':
+        return renderContent();
+      default:
+        return <p>Select a tab to view data.</p>;
     }
-  }
+  };
 
   return (
-    <div id="recipe-dialog">
-      <div id="content-area">
-        <GetContent />
+    <div
+      id="recipe-dialog"
+      style={{ display: 'flex', flexDirection: 'column' }}
+    >
+      <div style={tabStyle}>
+        <button style={buttonStyle} onClick={() => setActiveTab('recipe')}>
+          Ingredients
+        </button>
+        <button style={buttonStyle} onClick={() => setActiveTab('nutrition')}>
+          Nutritional Info
+        </button>
+        <button style={buttonStyle} onClick={() => setActiveTab('content')}>
+          Recipe Content
+        </button>
       </div>
-      <button onClick={handleRecipeClick}>Recipe</button>
-      <button onClick={handleNutritionalClick}>Nutritional Info</button>
+      <div id="content-area" style={contentAreaStyle}>
+        {data.ingredients.length > 0 ? getContent() : <p>Loading...</p>}
+      </div>
     </div>
   );
 };

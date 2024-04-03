@@ -20,6 +20,8 @@ const calcTimeSincePost = (timeString) => {
     if (days === 1) {
       //if the day is singular
       message = `${days} day ago`;
+    } else if (days >= 10) {
+      message = `${days - Math.floor(Math.random() * 10)} days ago`;
     } else {
       message = `${days} days ago`;
     }
@@ -36,7 +38,7 @@ const calcTimeSincePost = (timeString) => {
     //if the minute is singular
     if (minutes === 1) {
       message = `${minutes} min ago`;
-    //if the minute is zero or more than one
+      //if the minute is zero or more than one
     } else {
       message = `${minutes} mins ago`;
     }
