@@ -12,7 +12,7 @@ const calcTimeSincePost = (timeString) => {
   // Calculate the difference in hours (round down)
   const hours = Math.floor(minutes / 60);
   // Calculate the difference in days (round down)
-  const days = Math.floor(hours / 24);
+  let days = Math.floor(hours / 24);
   // Determine the appropriate message based on the time difference
   let message;
   //if its more than one day
