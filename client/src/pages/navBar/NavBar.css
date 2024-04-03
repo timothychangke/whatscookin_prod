@@ -1,0 +1,17 @@
+
+@keyframes swing {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(10deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+  
+  .logo:hover {
+	animation: swing 0.7s ease;
+	animation-iteration-count: 1;
+}

@@ -7,6 +7,8 @@ import FlexBox from 'components/UI/FlexBox';
 import logoLMnoname from '../../assets/images/logos/Logo_LightMode_WithoutName.png';
 import logoDMnoname from '../../assets/images/logos/Logo_DarkMode_WithoutName.png';
 
+import './NavBar.css';
+
 import {
   Box,
   IconButton,
@@ -31,7 +33,7 @@ import {
 
 /**
  * Responsive navbar with user menu, theme toggle, and logout (Redux). (Mobile dropdown)
- * 
+ *
  * @date 27/03/2024 - 00:46:45
  *
  * @returns {*}
@@ -47,7 +49,6 @@ const NavBar = () => {
   //check if screen is a mobile screen based on width length
   const isNotMobileScreen = useMediaQuery('(min-width: 1000px)');
 
-  
   //dispatch actions from the redux store
   const dispatch = useDispatch();
   //navigate to different routes in app
@@ -78,54 +79,61 @@ const NavBar = () => {
         >
           What's cookin
         </Typography>
-        <img
-          width="120"
-          height="60"
-          style={{ objectFit: 'cover' }}
-          src={theme.palette.mode === 'dark' ? logoDMnoname : logoLMnoname}
-          alt="logo"
-        />
       </FlexBox>
+
       {isNotMobileScreen ? (
-        <FlexBox gap="2rem">
-          <IconButton onClick={() => dispatch(setMode())}>
-            {theme.palette.mode === 'dark' ? (
-              <DarkMode sx={{ fontSize: '25px' }} />
-            ) : (
-              <LightMode sx={{ color: dark, fontSize: '25px' }} />
-            )}
-          </IconButton>
-          <IconButton>
-            <AccountCircle
-              sx={{ fontSize: '25px' }}
-              onClick={() => navigate(`/profile/${_id}`)}
+        <>
+          <div className="logo" style={{ justifyContent: 'center' }}>
+            <img
+              width="120"
+              height="60"
+              style={{ objectFit: 'cover' }}
+              src={theme.palette.mode === 'dark' ? logoDMnoname : logoLMnoname}
+              alt="logo"
             />
-          </IconButton>
-          <FormControl variant="standard" value={`${firstName} ${lastName}`}>
-            <Select
-              value={`${firstName} ${lastName}`}
-              sx={{
-                backgroundColor: neutralLight,
-                width: '150px',
-                borderRadius: '0.25rem',
-                p: '0.25rem 1rem',
-                '& .MuiSvgIcon-root': {
-                  pr: '0.25rem',
-                  width: '3rem',
-                },
-                '& .MuiSelect-seelct:focus': {
+          </div>
+          <FlexBox gap="2rem">
+            <IconButton onClick={() => dispatch(setMode())}>
+              {theme.palette.mode === 'dark' ? (
+                <DarkMode sx={{ fontSize: '25px' }} />
+              ) : (
+                <LightMode sx={{ color: dark, fontSize: '25px' }} />
+              )}
+            </IconButton>
+            <IconButton>
+              <AccountCircle
+                sx={{ fontSize: '25px' }}
+                onClick={() => navigate(`/profile/${_id}`)}
+              />
+            </IconButton>
+            <FormControl variant="standard" value={`${firstName} ${lastName}`}>
+              <Select
+                value={`${firstName} ${lastName}`}
+                sx={{
                   backgroundColor: neutralLight,
-                },
-              }}
-              input={<InputBase />}
-            >
-              <option hidden value={`${firstName} ${lastName}`}>
-                <Typography>{`${firstName} ${lastName}`}</Typography>
-              </option>
-              <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
-            </Select>
-          </FormControl>
-        </FlexBox>
+                  width: '150px',
+                  borderRadius: '0.25rem',
+                  p: '0.25rem 1rem',
+                  '& .MuiSvgIcon-root': {
+                    pr: '0.25rem',
+                    width: '3rem',
+                  },
+                  '& .MuiSelect-seelct:focus': {
+                    backgroundColor: neutralLight,
+                  },
+                }}
+                input={<InputBase />}
+              >
+                <option hidden value={`${firstName} ${lastName}`}>
+                  <Typography>{`${firstName} ${lastName}`}</Typography>
+                </option>
+                <MenuItem onClick={() => dispatch(setLogout())}>
+                  Log Out
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </FlexBox>
+        </>
       ) : (
         <IconButton onClick={() => setIsMobileMenuShown(!isMobileMenuShown)}>
           <Menu />

@@ -59,7 +59,7 @@ const FriendList = ({ userId }) => {
         color={palette.neutral.dark}
         variant="h5"
         fontWeight="500"
-        sx={{ mb: '1.5rem' }}
+        sx={{ mb: '1.5rem', ml: '1rem'}}
       >
         Friend List
       </Text>
