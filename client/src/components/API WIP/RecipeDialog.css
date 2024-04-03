@@ -1,7 +1,16 @@
 #recipe-dialog {
-    display: flex; /* Enable flexbox for centering */
-    justify-content: center; /* Center horizontally */
-     align-items: center; /* Center vertically */
-    display: contents;
-    }
-  
+  display: flex; /* Enable flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  display: contents;
+}
+
+button {
+  border-radius: 40px;
+  box-shadow: none;
+  border-width: 0px;
+}
+
+.list {
+  list-style: none;
+}

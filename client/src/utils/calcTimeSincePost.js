@@ -36,7 +36,7 @@ const calcTimeSincePost = (timeString) => {
     //if the minute is singular
     if (minutes === 1) {
       message = `${minutes} min ago`;
-    //if the minute is zero or more than one
+      //if the minute is zero or more than one
     } else {
       message = `${minutes} mins ago`;
     }
