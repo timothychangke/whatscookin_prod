@@ -48,7 +48,27 @@ app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 app.use(morgan('common'));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    version: 2,
+    builds: [
+      {
+        src: './index.js',
+        use: '@vercel/node',
+      },
+    ],
+    routes: [
+      {
+        src: '/(.*)',
+        dest: './index.js',
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      },
+    ],
+  }),
+);
 //store assets locally (have to change this if we want to deploy)
 app.use('/assets', express.static(path.join(dirname, 'public/assets')));
 
